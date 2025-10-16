@@ -73,7 +73,6 @@ public class Question
     [Column("question_text")]
     public string QuestionText { get; set; } = string.Empty;
 
-    [Column("options", TypeName = "jsonb")]
     public string[] Options { get; set; } = Array.Empty<string>();
 
 

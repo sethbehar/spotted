@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Spotted.Migrations
 {
     [DbContext(typeof(CloudyContext))]
-    [Migration("20251016172650_initial")]
-    partial class initial
+    [Migration("20251016192259_2")]
+    partial class _2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -109,10 +109,9 @@ namespace Spotted.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("exam_id");
 
-                    b.Property<string[]>("Options")
+                    b.PrimitiveCollection<string[]>("Options")
                         .IsRequired()
-                        .HasColumnType("jsonb")
-                        .HasColumnName("options");
+                        .HasColumnType("text[]");
 
                     b.Property<string>("QuestionText")
                         .IsRequired()

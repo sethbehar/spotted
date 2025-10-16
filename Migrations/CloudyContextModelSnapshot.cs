@@ -106,10 +106,9 @@ namespace Spotted.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("exam_id");
 
-                    b.Property<string[]>("Options")
+                    b.PrimitiveCollection<string[]>("Options")
                         .IsRequired()
-                        .HasColumnType("jsonb")
-                        .HasColumnName("options");
+                        .HasColumnType("text[]");
 
                     b.Property<string>("QuestionText")
                         .IsRequired()

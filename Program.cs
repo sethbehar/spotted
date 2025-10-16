@@ -1,7 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 
-using Newtonsoft.Json;
-
 namespace Spotted
 {
     public class Program
@@ -10,7 +8,7 @@ namespace Spotted
         {
             Console.WriteLine("Welcome to Cloudy - Series B (600M Round 3) Exam Platform");
             Console.WriteLine("Top level mock Azure questions written by Azure Professionals");
-            while(true)
+            while (true)
             {
 
                 Console.WriteLine("Select an option:");
@@ -44,7 +42,7 @@ namespace Spotted
                         var examTitle = Console.ReadLine();
                         if (nameToPurchase != null && examTitle != null)
                             PurchaseExam(nameToPurchase, examTitle);
-                
+
                         break;
                     case 4:
                         Console.Write("Enter Name to list exams for: ");
@@ -97,27 +95,33 @@ namespace Spotted
             }
         }
 
-        public static float TakeExam(string DisplayName, string examTitle)
+        public static float TakeExam(string displayName, string examTitle)
         {
             using var context = new CloudyContext();
 
-            var exam = context.Exams.FirstOrDefault(e => e.Title == examTitle);
-            if (exam == null)
-                return -1;
+            // Load the exam WITH questions in one go
+            var exam = context.Exams
+                .Include(e => e.Questions)
+                .FirstOrDefault(e => e.Title == examTitle);
+            if (exam == null) return -1;
 
-            var user = context.Users.FirstOrDefault(u => u.Profile.DisplayName == DisplayName);
-            if (user == null)
-                return -1;
+            // Find user by profile display name
+            var userId = context.Users
+                .Where(u => u.Profile.DisplayName == displayName)
+                .Select(u => u.UserId)
+                .SingleOrDefault();
+            if (userId == 0) return -1;
 
-            var userExam = context.UserExams.FirstOrDefault(ue =>
-                ue.UserId == user.UserId && ue.ExamId == exam.ExamId
-            );
-            if (userExam == null)
-                return -1;
+            // Ensure the user "owns" this exam
+            var userExam = context.UserExams
+                .FirstOrDefault(ue => ue.UserId == userId && ue.ExamId == exam.ExamId);
+            if (userExam == null) return -1;
 
-            string questions_raw = JsonConvert.SerializeObject(context.Questions.Where(q => q.ExamId == exam.ExamId));
-            List <Question> questions = JsonConvert.DeserializeObject<List<Question>>(questions_raw);
-            Console.WriteLine(questions);
+            // Now we have a real, iterable List<Question>
+            var questions = exam.Questions
+                .OrderBy(q => q.QuestionId)
+                .ToList();
+            if (questions.Count == 0) return -1;
 
             int correctAnswers = 0;
 
@@ -129,19 +133,19 @@ namespace Spotted
                     Console.WriteLine($"{i + 1}. {q.Options[i]}");
                 }
 
-                Console.Write("Your answer (1-4): ");
-                if (
-                    int.TryParse(Console.ReadLine(), out int answer)
-                    && answer - 1 == q.CorrectIndex
-                )
+                Console.Write($"Your answer (1-{q.Options.Length}): ");
+                if (int.TryParse(Console.ReadLine(), out int answer)
+                    && answer >= 1 && answer <= q.Options.Length
+                    && (answer - 1) == q.CorrectIndex)
                 {
                     correctAnswers++;
                 }
             }
 
-            float score = (float)correctAnswers / questions.Count * 100;
-            userExam.Passed = score >= 70;
+            float score = (float)correctAnswers / questions.Count * 100f;
+            userExam.Passed = score >= 70f;
             context.SaveChanges();
+
             return score;
         }
 
@@ -166,7 +170,7 @@ namespace Spotted
             context.UserExams.Add(userExam);
             context.SaveChanges();
         }
-    
+
         public static void ListExams(string DisplayName)
         {
             using var context = new CloudyContext();

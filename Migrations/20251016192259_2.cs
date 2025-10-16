@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Spotted.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class _2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -47,7 +47,7 @@ namespace Spotted.Migrations
                     question_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     question_text = table.Column<string>(type: "text", nullable: false),
-                    options = table.Column<string[]>(type: "jsonb", nullable: false),
+                    Options = table.Column<string[]>(type: "text[]", nullable: false),
                     correct_index = table.Column<int>(type: "integer", nullable: false),
                     exam_id = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -150,7 +150,7 @@ namespace Spotted.Migrations
 
             migrationBuilder.InsertData(
                 table: "Questions",
-                columns: new[] { "question_id", "correct_index", "exam_id", "options", "question_text" },
+                columns: new[] { "question_id", "correct_index", "exam_id", "Options", "question_text" },
                 values: new object[,]
                 {
                     { 1, 1, 1, new[] { "Azure SQL Database", "Azure Blob Storage", "Azure Table Storage", "Azure Queue Storage" }, "Which Azure service should you use to store unstructured data such as images and videos?" },
