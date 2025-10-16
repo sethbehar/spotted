@@ -20,7 +20,7 @@ public class CloudyContext : DbContext
         // ✅ Only apply if no options were provided (e.g., by the factory/DI)
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Database=jmfxyec;"); // <-- match your factory
+            optionsBuilder.UseNpgsql("Host=localhost;Database=cloudy;");
         }
     }
 

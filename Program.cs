@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
+using Newtonsoft.Json;
+
 namespace Spotted
 {
     public class Program
@@ -113,7 +115,9 @@ namespace Spotted
             if (userExam == null)
                 return -1;
 
-            List<Question> questions = exam.Questions;
+            string questions_raw = JsonConvert.SerializeObject(context.Questions.Where(q => q.ExamId == exam.ExamId));
+            List <Question> questions = JsonConvert.DeserializeObject<List<Question>>(questions_raw);
+            Console.WriteLine(questions);
 
             int correctAnswers = 0;
 
