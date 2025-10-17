@@ -3,10 +3,8 @@ using Newtonsoft.Json;
 
 public class CloudyContext : DbContext
 {
-    // ✅ Add this ctor so the factory can pass options
     public CloudyContext(DbContextOptions<CloudyContext> options) : base(options) { }
 
-    // (Optional) keep a parameterless ctor if you want
     public CloudyContext() { }
 
     public DbSet<Profile> Profiles { get; set; }
@@ -18,7 +16,6 @@ public class CloudyContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        // ✅ Only apply if no options were provided (e.g., by the factory/DI)
         if (!optionsBuilder.IsConfigured)
         {
             optionsBuilder.UseNpgsql("Host=localhost;Database=cloudy;");

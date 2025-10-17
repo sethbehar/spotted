@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Spotted.Migrations
 {
     [DbContext(typeof(CloudyContext))]
-    [Migration("20251017190556_new")]
-    partial class @new
+    [Migration("20251017195102_inital")]
+    partial class inital
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

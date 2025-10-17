@@ -74,7 +74,6 @@ public class Question
     [Column("question_text")]
     public string QuestionText { get; set; } = string.Empty;
 
-    // Backing property for EF Core seeding
     [Column("options", TypeName = "jsonb")]
     public string OptionsJson { get; set; } = "[]";
 
