@@ -115,9 +115,8 @@ namespace Spotted
             if (userExam == null)
                 return -1;
 
-            string questions_raw = JsonConvert.SerializeObject(context.Questions.Where(q => q.ExamId == exam.ExamId));
-            List <Question> questions = JsonConvert.DeserializeObject<List<Question>>(questions_raw);
-            Console.WriteLine(questions);
+
+            List<Question> questions = exam.Questions.ToList();
 
             int correctAnswers = 0;
 
