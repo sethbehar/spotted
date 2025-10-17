@@ -106,9 +106,10 @@ namespace Spotted.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("exam_id");
 
-                    b.PrimitiveCollection<string[]>("Options")
+                    b.Property<string>("OptionsJson")
                         .IsRequired()
-                        .HasColumnType("text[]");
+                        .HasColumnType("jsonb")
+                        .HasColumnName("options");
 
                     b.Property<string>("QuestionText")
                         .IsRequired()
@@ -127,7 +128,7 @@ namespace Spotted.Migrations
                             QuestionId = 1,
                             CorrectIndex = 1,
                             ExamId = 1,
-                            Options = new[] { "Azure SQL Database", "Azure Blob Storage", "Azure Table Storage", "Azure Queue Storage" },
+                            OptionsJson = "[\"Azure SQL Database\",\"Azure Blob Storage\",\"Azure Table Storage\",\"Azure Queue Storage\"]",
                             QuestionText = "Which Azure service should you use to store unstructured data such as images and videos?"
                         },
                         new
@@ -135,7 +136,7 @@ namespace Spotted.Migrations
                             QuestionId = 2,
                             CorrectIndex = 1,
                             ExamId = 1,
-                            Options = new[] { "Azure App Service", "Azure Virtual Machines", "Azure Kubernetes Service", "Azure Functions" },
+                            OptionsJson = "[\"Azure App Service\",\"Azure Virtual Machines\",\"Azure Kubernetes Service\",\"Azure Functions\"]",
                             QuestionText = "Which Azure service allows you to run virtualized Windows or Linux servers in the cloud?"
                         },
                         new
@@ -143,7 +144,7 @@ namespace Spotted.Migrations
                             QuestionId = 3,
                             CorrectIndex = 1,
                             ExamId = 1,
-                            Options = new[] { "They provide faster internet connections.", "They protect applications and data from datacenter failures.", "They reduce storage costs for data.", "They automatically scale applications based on demand." },
+                            OptionsJson = "[\"They provide faster internet connections.\",\"They protect applications and data from datacenter failures.\",\"They reduce storage costs for data.\",\"They automatically scale applications based on demand.\"]",
                             QuestionText = "What is the main benefit of using Azure Availability Zones?"
                         },
                         new
@@ -151,7 +152,7 @@ namespace Spotted.Migrations
                             QuestionId = 4,
                             CorrectIndex = 1,
                             ExamId = 1,
-                            Options = new[] { "Reserved Instances", "Pay-as-you-go", "Enterprise Agreement", "Free Tier" },
+                            OptionsJson = "[\"Reserved Instances\",\"Pay-as-you-go\",\"Enterprise Agreement\",\"Free Tier\"]",
                             QuestionText = "Which pricing model allows you to pay only for the exact amount of resources you use?"
                         },
                         new
@@ -159,7 +160,7 @@ namespace Spotted.Migrations
                             QuestionId = 5,
                             CorrectIndex = 0,
                             ExamId = 1,
-                            Options = new[] { "Azure Service Health", "Azure Monitor", "Azure Advisor", "Azure Security Center" },
+                            OptionsJson = "[\"Azure Service Health\",\"Azure Monitor\",\"Azure Advisor\",\"Azure Security Center\"]",
                             QuestionText = "Which Azure tool allows you to view the status of all Azure services globally?"
                         });
                 });

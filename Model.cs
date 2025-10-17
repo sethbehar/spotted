@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 public class Profile
 {
@@ -73,8 +74,16 @@ public class Question
     [Column("question_text")]
     public string QuestionText { get; set; } = string.Empty;
 
-    public string[] Options { get; set; } = Array.Empty<string>();
+    // Backing property for EF Core seeding
+    [Column("options", TypeName = "jsonb")]
+    public string OptionsJson { get; set; } = "[]";
 
+    [NotMapped]
+    public List<string> Options
+    {
+        get => JsonConvert.DeserializeObject<List<string>>(OptionsJson) ?? new List<string>();
+        set => OptionsJson = JsonConvert.SerializeObject(value);
+    }
 
     [Column("correct_index")]
     public int CorrectIndex { get; set; }

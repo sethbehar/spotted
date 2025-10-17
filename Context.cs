@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 public class CloudyContext : DbContext
 {
@@ -92,7 +93,7 @@ public class CloudyContext : DbContext
     {
         QuestionId = 1,
         QuestionText = "Which Azure service should you use to store unstructured data such as images and videos?",
-        Options = new[] { "Azure SQL Database", "Azure Blob Storage", "Azure Table Storage", "Azure Queue Storage" },
+        OptionsJson = JsonConvert.SerializeObject(new[] { "Azure SQL Database", "Azure Blob Storage", "Azure Table Storage", "Azure Queue Storage" }),
         CorrectIndex = 1,
         ExamId = 1
     },
@@ -100,7 +101,7 @@ public class CloudyContext : DbContext
     {
         QuestionId = 2,
         QuestionText = "Which Azure service allows you to run virtualized Windows or Linux servers in the cloud?",
-        Options = new[] { "Azure App Service", "Azure Virtual Machines", "Azure Kubernetes Service", "Azure Functions" },
+        OptionsJson = JsonConvert.SerializeObject(new[] { "Azure App Service", "Azure Virtual Machines", "Azure Kubernetes Service", "Azure Functions" }),
         CorrectIndex = 1,
         ExamId = 1
     },
@@ -108,7 +109,7 @@ public class CloudyContext : DbContext
     {
         QuestionId = 3,
         QuestionText = "What is the main benefit of using Azure Availability Zones?",
-        Options = new[] { "They provide faster internet connections.", "They protect applications and data from datacenter failures.", "They reduce storage costs for data.", "They automatically scale applications based on demand." },
+        OptionsJson = JsonConvert.SerializeObject(new[] { "They provide faster internet connections.", "They protect applications and data from datacenter failures.", "They reduce storage costs for data.", "They automatically scale applications based on demand." }),
         CorrectIndex = 1,
         ExamId = 1
     },
@@ -116,7 +117,7 @@ public class CloudyContext : DbContext
     {
         QuestionId = 4,
         QuestionText = "Which pricing model allows you to pay only for the exact amount of resources you use?",
-        Options = new[] { "Reserved Instances", "Pay-as-you-go", "Enterprise Agreement", "Free Tier" },
+        OptionsJson = JsonConvert.SerializeObject(new[] { "Reserved Instances", "Pay-as-you-go", "Enterprise Agreement", "Free Tier" }),
         CorrectIndex = 1,
         ExamId = 1
     },
@@ -124,11 +125,12 @@ public class CloudyContext : DbContext
     {
         QuestionId = 5,
         QuestionText = "Which Azure tool allows you to view the status of all Azure services globally?",
-        Options = new[] { "Azure Service Health", "Azure Monitor", "Azure Advisor", "Azure Security Center" },
+        OptionsJson = JsonConvert.SerializeObject(new[] { "Azure Service Health", "Azure Monitor", "Azure Advisor", "Azure Security Center" }),
         CorrectIndex = 0,
         ExamId = 1
     }
 );
+
 
     }
 }

@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Spotted.Migrations
 {
     /// <inheritdoc />
-    public partial class _2 : Migration
+    public partial class @new : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -47,7 +47,7 @@ namespace Spotted.Migrations
                     question_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     question_text = table.Column<string>(type: "text", nullable: false),
-                    Options = table.Column<string[]>(type: "text[]", nullable: false),
+                    options = table.Column<string>(type: "jsonb", nullable: false),
                     correct_index = table.Column<int>(type: "integer", nullable: false),
                     exam_id = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -150,14 +150,14 @@ namespace Spotted.Migrations
 
             migrationBuilder.InsertData(
                 table: "Questions",
-                columns: new[] { "question_id", "correct_index", "exam_id", "Options", "question_text" },
+                columns: new[] { "question_id", "correct_index", "exam_id", "options", "question_text" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, new[] { "Azure SQL Database", "Azure Blob Storage", "Azure Table Storage", "Azure Queue Storage" }, "Which Azure service should you use to store unstructured data such as images and videos?" },
-                    { 2, 1, 1, new[] { "Azure App Service", "Azure Virtual Machines", "Azure Kubernetes Service", "Azure Functions" }, "Which Azure service allows you to run virtualized Windows or Linux servers in the cloud?" },
-                    { 3, 1, 1, new[] { "They provide faster internet connections.", "They protect applications and data from datacenter failures.", "They reduce storage costs for data.", "They automatically scale applications based on demand." }, "What is the main benefit of using Azure Availability Zones?" },
-                    { 4, 1, 1, new[] { "Reserved Instances", "Pay-as-you-go", "Enterprise Agreement", "Free Tier" }, "Which pricing model allows you to pay only for the exact amount of resources you use?" },
-                    { 5, 0, 1, new[] { "Azure Service Health", "Azure Monitor", "Azure Advisor", "Azure Security Center" }, "Which Azure tool allows you to view the status of all Azure services globally?" }
+                    { 1, 1, 1, "[\"Azure SQL Database\",\"Azure Blob Storage\",\"Azure Table Storage\",\"Azure Queue Storage\"]", "Which Azure service should you use to store unstructured data such as images and videos?" },
+                    { 2, 1, 1, "[\"Azure App Service\",\"Azure Virtual Machines\",\"Azure Kubernetes Service\",\"Azure Functions\"]", "Which Azure service allows you to run virtualized Windows or Linux servers in the cloud?" },
+                    { 3, 1, 1, "[\"They provide faster internet connections.\",\"They protect applications and data from datacenter failures.\",\"They reduce storage costs for data.\",\"They automatically scale applications based on demand.\"]", "What is the main benefit of using Azure Availability Zones?" },
+                    { 4, 1, 1, "[\"Reserved Instances\",\"Pay-as-you-go\",\"Enterprise Agreement\",\"Free Tier\"]", "Which pricing model allows you to pay only for the exact amount of resources you use?" },
+                    { 5, 0, 1, "[\"Azure Service Health\",\"Azure Monitor\",\"Azure Advisor\",\"Azure Security Center\"]", "Which Azure tool allows you to view the status of all Azure services globally?" }
                 });
 
             migrationBuilder.InsertData(
