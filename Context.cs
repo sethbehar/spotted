@@ -74,6 +74,7 @@ public class CloudyContext : DbContext
 
         // ---------- Seeds (order: parents before children) ----------
 
+        // COMMENT: lol mike scared
         // Profiles first (parent of User)
         modelBuilder.Entity<Profile>().HasData(
             new Profile { ProfileId = 1, DisplayName = "Seth Behar" },
@@ -99,7 +100,7 @@ public class CloudyContext : DbContext
             new Topic { TopicId = 3, ExamId = 1, Name = "Security", Description = "Understand security, privacy, compliance, and trust (25-30%)" },
             new Topic { TopicId = 4, ExamId = 1, Name = "Data Governance", Description = "Understand Azure pricing and support (20-25%)" }
         );
-
+    // COMMENT: Consider adding logic to randomize the order of the questions for each exam attempt
         modelBuilder.Entity<Question>().HasData(
     new
     {

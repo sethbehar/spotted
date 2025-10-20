@@ -1,3 +1,7 @@
+// COMMENTS: Overall pretty dope code structure and organization. 
+// It's a solid implementation of Azure practice exams using EF core
+// Forecast: Cloudy
+
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
@@ -104,6 +108,7 @@ namespace Spotted
             }
         }
 
+        // COMMENT: Consider adding logic to prevent invalid email addresses
         public static void AddUser(string email, string displayName)
         {
             using var context = new CloudyContext();
