@@ -25,6 +25,11 @@ dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
 
+### Run Cloudy
+```bash
+dotnet run
+```
+
 ### ERD
 <img src="images/erd.png" alt="Cloudy Diagram" width="50%">
 
