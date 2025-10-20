@@ -28,10 +28,10 @@ public class User
     [Column("email")]
     public required string Email { get; set; }
 
-    public List<UserExams> UserExams { get; set; } = new();
+    public List<UserExam> UserExam { get; set; } = new();
 }
 
-public class UserExams
+public class UserExam
 {
     [Key, Column("user_exam_id")]
     public int UserExamId { get; set; }

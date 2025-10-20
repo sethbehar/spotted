@@ -9,7 +9,7 @@ public class CloudyContext : DbContext
 
     public DbSet<Profile> Profiles { get; set; }
     public DbSet<User> Users { get; set; }
-    public DbSet<UserExams> UserExams { get; set; }
+    public DbSet<UserExam> UserExam { get; set; }
     public DbSet<Exam> Exams { get; set; }
     public DbSet<Topic> Topics { get; set; }
     public DbSet<Question> Questions { get; set; }
@@ -26,20 +26,35 @@ public class CloudyContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
+        //--------- Uniqueness ------------
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
+
+        modelBuilder.Entity<Profile>()
+            .HasIndex(p => p.DisplayName)
+            .IsUnique();
+
+        modelBuilder.Entity<UserExam>()
+            .HasIndex(ue => new { ue.ExamId, ue.UserId })
+            .IsUnique();
+
         // ---------- Relationships ----------
+        
+
         modelBuilder.Entity<User>()
             .HasOne(u => u.Profile)
             .WithOne(p => p.User)
             .HasForeignKey<User>(u => u.ProfileId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        modelBuilder.Entity<UserExams>()
+        modelBuilder.Entity<UserExam>()
             .HasOne(ue => ue.User)
-            .WithMany(u => u.UserExams)
+            .WithMany(u => u.UserExam)
             .HasForeignKey(ue => ue.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<UserExams>()
+        modelBuilder.Entity<UserExam>()
             .HasOne(ue => ue.Exam)
             .WithMany()
             .HasForeignKey(ue => ue.ExamId)

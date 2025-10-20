@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Spotted.Migrations
 {
     /// <inheritdoc />
-    public partial class inital : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -104,7 +104,7 @@ namespace Spotted.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserExams",
+                name: "UserExam",
                 columns: table => new
                 {
                     user_exam_id = table.Column<int>(type: "integer", nullable: false)
@@ -115,15 +115,15 @@ namespace Spotted.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserExams", x => x.user_exam_id);
+                    table.PrimaryKey("PK_UserExam", x => x.user_exam_id);
                     table.ForeignKey(
-                        name: "FK_UserExams_Exams_exam_id",
+                        name: "FK_UserExam_Exams_exam_id",
                         column: x => x.exam_id,
                         principalTable: "Exams",
                         principalColumn: "exam_id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserExams_Users_user_id",
+                        name: "FK_UserExam_Users_user_id",
                         column: x => x.user_id,
                         principalTable: "Users",
                         principalColumn: "user_id",
@@ -181,6 +181,12 @@ namespace Spotted.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Profiles_display_name",
+                table: "Profiles",
+                column: "display_name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Questions_exam_id",
                 table: "Questions",
                 column: "exam_id");
@@ -191,14 +197,21 @@ namespace Spotted.Migrations
                 column: "exam_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserExams_exam_id",
-                table: "UserExams",
-                column: "exam_id");
+                name: "IX_UserExam_exam_id_user_id",
+                table: "UserExam",
+                columns: new[] { "exam_id", "user_id" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserExams_user_id",
-                table: "UserExams",
+                name: "IX_UserExam_user_id",
+                table: "UserExam",
                 column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_email",
+                table: "Users",
+                column: "email",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_profile_id",
@@ -217,7 +230,7 @@ namespace Spotted.Migrations
                 name: "Topics");
 
             migrationBuilder.DropTable(
-                name: "UserExams");
+                name: "UserExam");
 
             migrationBuilder.DropTable(
                 name: "Exams");
