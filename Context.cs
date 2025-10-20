@@ -1,6 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
+/*
+ * I appreciated the naming conventions and structure of your code, it made it easy to follow
+ * and understand the relationships between entities.
+ */
 public class CloudyContext : DbContext
 {
     public CloudyContext(DbContextOptions<CloudyContext> options) : base(options) { }
@@ -40,7 +44,7 @@ public class CloudyContext : DbContext
             .IsUnique();
 
         // ---------- Relationships ----------
-        
+     
 
         modelBuilder.Entity<User>()
             .HasOne(u => u.Profile)
@@ -72,6 +76,7 @@ public class CloudyContext : DbContext
             .HasForeignKey(t => t.ExamId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        // Great organization and super easy to read!
         // ---------- Seeds (order: parents before children) ----------
 
         // Profiles first (parent of User)
@@ -100,6 +105,8 @@ public class CloudyContext : DbContext
             new Topic { TopicId = 4, ExamId = 1, Name = "Data Governance", Description = "Understand Azure pricing and support (20-25%)" }
         );
 
+        // This is super nitpicky, but I think it could be good if the questions would be moved
+        // to a serate JSON file for better readability and maintainability.
         modelBuilder.Entity<Question>().HasData(
     new
     {

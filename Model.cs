@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
+// great use of attributes for mapping properties to database columns
 public class Profile
 {
     [Column("profile_id")]

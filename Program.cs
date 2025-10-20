@@ -5,6 +5,8 @@ namespace Spotted
 {
     public class Program
     {
+        // Really cool ideas for a console app to manage users and exams
+        // I liked how organized and interactive it is
         public static void Main(string[] args)
         {
             Console.WriteLine("\n===============================================");
@@ -104,6 +106,8 @@ namespace Spotted
             }
         }
 
+
+        // To make it more visually appealing, maybe you guys could've used Specre.Console to have it be more colorful
         public static void AddUser(string email, string displayName)
         {
             using var context = new CloudyContext();
