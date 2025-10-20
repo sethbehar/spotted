@@ -112,10 +112,17 @@ namespace Spotted
                 Email = email,
                 Profile = new Profile { DisplayName = displayName },
             };
-            context.Users.Add(user);
-            context.SaveChanges();
+            try
+            {
+                context.Users.Add(user);
+                context.SaveChanges();
+                Console.WriteLine($"\n✅ User '{displayName}' added successfully.\n");
+            }
+            catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException pgEx && pgEx.SqlState == "23505")
+            {
+                Console.WriteLine("Sorry this login already exists");
+            }
 
-            Console.WriteLine($"\n✅ User '{displayName}' added successfully.\n");
         }
 
         public static void DeleteUser(string DisplayName)
@@ -151,7 +158,7 @@ namespace Spotted
             if (user == null)
                 return "User not found.";
 
-            var userExam = context.UserExams.FirstOrDefault(ue =>
+            var userExam = context.UserExam.FirstOrDefault(ue =>
                 ue.UserId == user.UserId && ue.ExamId == exam.ExamId
             );
             if (userExam == null)
@@ -186,7 +193,7 @@ namespace Spotted
             context.SaveChanges();
 
             Console.WriteLine($"\nScore: {score}%");
-            Console.WriteLine(score >= 70 ? "✅ Exam passed!" : "❌ Exam failed.");
+            Console.WriteLine(score >= 70 ? "✅ Exam passed!" : "❌ Exam not passed.");
             Console.WriteLine("-----------------------------------------------\n");
 
             return score >= 70 ? "Exam passed!" : "Exam failed.";
@@ -211,17 +218,25 @@ namespace Spotted
                 return;
             }
 
-            var userExam = new UserExams
+            var userExam = new UserExam
             {
                 UserId = user.UserId,
                 ExamId = exam.ExamId,
                 Passed = false,
             };
 
-            context.UserExams.Add(userExam);
-            context.SaveChanges();
+            try
+            {
+                context.UserExam.Add(userExam);
+                context.SaveChanges();
+                Console.WriteLine($"\n💳 Exam '{examTitle}' purchased successfully for user '{DisplayName}'.\n");
+            }
+            catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException pgEx && pgEx.SqlState == "23505")
+            {
+                Console.WriteLine($"{DisplayName} has already purchased exam {examTitle}");
+            }
 
-            Console.WriteLine($"\n💳 Exam '{examTitle}' purchased successfully for user '{DisplayName}'.\n");
+            
         }
 
         public static void ListExams(string DisplayName)
@@ -234,7 +249,7 @@ namespace Spotted
                 return;
             }
 
-            var exams = context.UserExams
+            var exams = context.UserExam
                 .Include(ue => ue.Exam)
                 .ThenInclude(e => e.Topics)
                 .Where(ue => ue.UserId == user.UserId)

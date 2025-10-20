@@ -74,6 +74,9 @@ namespace Spotted.Migrations
 
                     b.HasKey("ProfileId");
 
+                    b.HasIndex("DisplayName")
+                        .IsUnique();
+
                     b.ToTable("Profiles");
 
                     b.HasData(
@@ -245,6 +248,9 @@ namespace Spotted.Migrations
 
                     b.HasKey("UserId");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.HasIndex("ProfileId")
                         .IsUnique();
 
@@ -265,7 +271,7 @@ namespace Spotted.Migrations
                         });
                 });
 
-            modelBuilder.Entity("UserExams", b =>
+            modelBuilder.Entity("UserExam", b =>
                 {
                     b.Property<int>("UserExamId")
                         .ValueGeneratedOnAdd()
@@ -288,11 +294,12 @@ namespace Spotted.Migrations
 
                     b.HasKey("UserExamId");
 
-                    b.HasIndex("ExamId");
-
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserExams");
+                    b.HasIndex("ExamId", "UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserExam");
                 });
 
             modelBuilder.Entity("Question", b =>
@@ -328,7 +335,7 @@ namespace Spotted.Migrations
                     b.Navigation("Profile");
                 });
 
-            modelBuilder.Entity("UserExams", b =>
+            modelBuilder.Entity("UserExam", b =>
                 {
                     b.HasOne("Exam", "Exam")
                         .WithMany()
@@ -337,7 +344,7 @@ namespace Spotted.Migrations
                         .IsRequired();
 
                     b.HasOne("User", "User")
-                        .WithMany("UserExams")
+                        .WithMany("UserExam")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -361,7 +368,7 @@ namespace Spotted.Migrations
 
             modelBuilder.Entity("User", b =>
                 {
-                    b.Navigation("UserExams");
+                    b.Navigation("UserExam");
                 });
 #pragma warning restore 612, 618
         }
