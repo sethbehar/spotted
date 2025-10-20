@@ -19,6 +19,9 @@ public class User
     [Column("user_id")]
     public int UserId { get; set; }
 
+    // COMMENT: The ERD logic is confusing since adding a foreign key in User pointing to Profile
+    // means that Profile is the principal entity meaning that a Profile can exist without a User.
+    // Consider swapping the foreign key to Profile to make User the principal entity.
     [Column("profile_id")]
     [ForeignKey("Profile")]
     public int ProfileId { get; set; }
@@ -31,6 +34,7 @@ public class User
     public List<UserExam> UserExam { get; set; } = new();
 }
 
+// COMMENT: Consider renaming this to "UserExams" or even "UserExamRecords" for clarity
 public class UserExam
 {
     [Key, Column("user_exam_id")]
